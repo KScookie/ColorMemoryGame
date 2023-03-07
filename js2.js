@@ -9,6 +9,7 @@ cardFrontElement.innerText = '';
   const gameContainer = document.getElementById('game-container');
   // 配列を初期化する
   let flippedCards = [];
+  let matchedCards = [];
 
   if (gameContainer && scriptOrigin === window.location.origin) {
     const cards = [
