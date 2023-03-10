@@ -1,9 +1,29 @@
+body {
+  position: relative;
+}
+
+#timer {
+  position: absolute;
+  top: 100px;
+  /* h1からの距離を調整 */
+  right: 0;
+  left: 0;
+  margin: auto;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
 #game-container {
+  padding-top: 30px;
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  z-index: 0;
 }
 
 h1 {
@@ -11,6 +31,7 @@ h1 {
   text-align: center;
   color: #333;
   margin-top: 50px;
+  z-index: 1;
 }
 
 .card {
@@ -21,6 +42,8 @@ h1 {
   perspective: 800px;
   transform-style: preserve-3d;
   transition: transform 0.5s ease-in-out;
+  border-radius: 10px;
+  /* 丸みを追加 */
 }
 
 .card.flipped {
@@ -35,6 +58,8 @@ h1 {
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
+  border-radius: 10px;
+  /* 丸みを追加 */
 }
 
 .card-front {
@@ -42,7 +67,7 @@ h1 {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  background-color: #888;
+  background-color: #F5F5F5;
   color: #333;
   display: flex;
   justify-content: center;
@@ -52,7 +77,6 @@ h1 {
 
 .card-back {
   transform: rotateY(180deg);
-  background-color: #eee;
   backface-visibility: hidden;
   position: absolute;
   top: 0;
