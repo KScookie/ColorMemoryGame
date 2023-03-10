@@ -10,6 +10,9 @@ cardFrontElement.innerText = '';
   // 配列を初期化する
   let flippedCards = [];
   let matchedCards = [];
+  let startTime = null;
+  let elapsedTime = 0;
+  let timerInterval = null; // timerIntervalを定義
 
   if (gameContainer && scriptOrigin === window.location.origin) {
     const cards = [
@@ -67,6 +70,23 @@ cardFrontElement.innerText = '';
       { id: 52, image: 'img/image_25.png' },
     ];
 
+    // タイマーを開始する関数
+    function startTimer() {
+      if (timerInterval === null) { // timerIntervalがnullである場合のみ、タイマーを開始する
+        startTime = Date.now();
+        timerInterval = setInterval(() => {
+          elapsedTime = Date.now() - startTime;
+
+          const timerElement = document.getElementById('timer');
+          if (timerElement) {
+            const minutes = Math.floor(elapsedTime / 60000);
+            const seconds = Math.floor((elapsedTime % 60000) / 1000);
+            timerElement.innerText = `経過時間: ${minutes}分${seconds}秒`;
+          }
+        }, 1000);
+      }
+    }
+
     // shuffle関数：配列をランダムに並び替える関数
     function shuffle(array) {
       let currentIndex = array.length;
@@ -102,6 +122,11 @@ cardFrontElement.innerText = '';
           cardElement.classList.add('flipped');
           flippedCards.push(cardElement);
 
+          if (flippedCards.length === 1) {
+            // ゲームが始まったタイミングでタイマーを開始する
+            startTimer();
+          }
+
           if (flippedCards.length === 2) {
             const firstCardValue = flippedCards[0].querySelector('.card-back').style.backgroundImage;
             const secondCardValue = flippedCards[1].querySelector('.card-back').style.backgroundImage;
@@ -111,8 +136,15 @@ cardFrontElement.innerText = '';
               flippedCards = [];
 
               if (matchedCards.length === cards.length) {
+                clearInterval(timerInterval);
                 setTimeout(function () {
-                  alert('おめでとう！クリアしました！');
+                  alert(`Congratulations! You have cleared the game in ${formatTime(elapsedTime)}.`);
+
+                  function formatTime(time) {
+                    const minutes = Math.floor(time / 60);
+                    const seconds = time % 60;
+                    return `${minutes}分${seconds}秒`;
+                  }
                 }, 500);
               }
             } else {
@@ -139,6 +171,7 @@ cardFrontElement.innerText = '';
         cardElement = createCard(card);
         gameContainer.appendChild(cardElement);
       }
+
     }
 
 
